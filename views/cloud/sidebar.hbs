@@ -1,0 +1,32 @@
+<bx-side-nav aria-label="Side navigation" class="z-0">
+    <bx-side-nav-items>
+
+        <bx-side-nav-link href="{{baseurl}}">Projects</bx-side-nav-link>
+        <bx-side-nav-divider></bx-side-nav-divider>
+
+        {{#each projects}}
+            {{#with this}}
+                    {{#if active}}
+                        <bx-side-nav-link active href="{{baseurl}}/{{id}}">{{name}}</bx-side-nav-link>
+                    {{else}}
+                        <bx-side-nav-link href="{{baseurl}}/{{id}}">{{name}}</bx-side-nav-link>
+                    {{/if}}
+            {{/with}}
+        {{/each}}
+
+        {{#if projectid}}
+            <div class="h-6"></div>
+            <bx-side-nav-link href="{{baseurl}}/{{projectid}}">Services</bx-side-nav-link>
+            <bx-side-nav-divider></bx-side-nav-divider>
+            
+            {{#if functions}}
+                <bx-side-nav-link active href="{{baseurl}}/{{projectid}}/functions">Functions</bx-side-nav-link>
+            {{else}}
+                <bx-side-nav-link href="{{baseurl}}/{{projectid}}/functions">Functions</bx-side-nav-link>
+            {{/if}}
+
+            <bx-side-nav-link href="{{baseurl}}/{{projectid}}/storage">Storage</bx-side-nav-link>
+            <bx-side-nav-link href="{{baseurl}}/{{projectid}}/hosting">Hosting</bx-side-nav-link>
+        {{/if}}
+    </bx-side-nav-items>
+</bx-side-nav>

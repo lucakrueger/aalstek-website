@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Aalstek</title>
+
+        {{> 'head/style'}}
+    </head>
+    <body>
+        {{> 'navigation/navbar'}}
+        {{> 'cloud/sidebar'}}
+
+        <div class="content -z-50 flex flex-row gap-2">
+            {{#if functions}}
+                {{> 'cloud/functions'}}
+            {{/if}}
+            {{#if storages}}
+                {{> 'cloud/storage'}}
+            {{/if}}
+            {{#if hosts}}
+                {{> 'cloud/host'}}
+            {{/if}}
+        </div>
+    </body>
+</html>

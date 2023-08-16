@@ -1,0 +1,22 @@
+bx-header ~ bx-side-nav {
+    margin-top: 3rem;
+    height: calc(90% - 3rem);
+}
+
+bx-side-nav ~ .content {
+    margin-left: 16rem;
+    width: calc(100% - 16rem)
+}
+
+bx-header ~ .content {
+    margin-top: 3rem;
+    height: calc(100vh - 3rem);
+}
+
+.content-nav {
+    background-color: var(--cds-ui-01,#f4f4f4)
+}
+
+html {
+    overflow-y: hidden;
+}

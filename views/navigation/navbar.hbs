@@ -1,0 +1,32 @@
+<bx-header aria-label="Aalstek" class="w-full">
+
+    <bx-header-name href="/" prefix="Aalstek">{{title}}</bx-header-name>
+
+    <bx-header-nav menu-bar-label="Aalstek" class="w-full">
+
+        <bx-header-menu menu-label="Products" trigger-content="Products">
+            <bx-header-menu-item href="/cloud">Cloud Manager</bx-header-menu-item>
+            <bx-header-menu-item href="/icm">ICM</bx-header-menu-item>
+        </bx-header-menu>
+
+        <bx-header-nav-item href="/about">About</bx-header-nav-item>
+        <bx-header-nav-item href="/pricing">Pricing</bx-header-nav-item>
+        <bx-header-nav-item href="/contact">Contact</bx-header-nav-item>
+
+        {{#if authenticated}}
+            <bx-header-menu menu-label="Account" trigger-content="Account" class="ml-auto">
+                <bx-header-menu-item>Overview</bx-header-menu-item>
+                <bx-header-menu-item>Settings</bx-header-menu-item>
+                <bx-header-menu-item>Billing</bx-header-menu-item>
+                <bx-header-menu-item>Logout</bx-header-menu-item>
+            </bx-header-menu>
+        {{else}}
+            <bx-header-nav-item href="javascript:void 0" class="ml-auto">Login</bx-header-nav-item>
+        {{/if}}
+
+        <!-- <bx-header-nav-item href="javascript:void 0" class="ml-auto">
+            <img src="https://placehold.co/400x400" class="w-8 h-8 mx-auto rounded-full overflow-hidden">
+        </bx-header-nav-item> -->
+
+    </bx-header-nav>
+</bx-header>

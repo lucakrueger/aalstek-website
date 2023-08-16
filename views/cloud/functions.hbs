@@ -1,0 +1,36 @@
+<bx-data-table class="basis-1/3 h-full content-nav">
+    <bx-table>
+        <bx-table-head>
+            <bx-table-header-row>
+                <bx-table-header-cell>Name</bx-table-header-cell>
+                <bx-table-header-cell>Type</bx-table-header-cell>
+                <bx-table-header-cell>Category</bx-table-header-cell>
+                <bx-table-header-cell>Status</bx-table-header-cell>
+                <bx-table-header-cell>Action</bx-table-header-cell>
+                <bx-table-header-cell></bx-table-header-cell>
+            </bx-table-header-row>
+        </bx-table-head>
+        <bx-table-body>
+            {{#each functions}}
+                {{#with this}}
+                    <bx-table-row>
+                        <bx-table-cell class="font-semibold">{{name}}</bx-table-cell>
+                        <bx-table-cell>{{type}}</bx-table-cell>
+                        <bx-table-cell>{{category}}</bx-table-cell>
+                        <bx-table-cell>{{status}}</bx-table-cell>
+                        <bx-table-cell class="text-red-600 hover:underline decoration-solid hover:cursor-pointer">Stop</bx-table-cell>
+                        <bx-table-cell>
+                            <bx-btn size="sm" href="{{baseurl}}/{{name}}">Open</bx-btn>
+                        </bx-table-cell>
+                    </bx-table-row>
+                {{/with}}
+            {{/each}}
+        </bx-table-body>
+    </bx-table>
+</bx-data-table>
+
+{{#if functionid}}
+    <!-- <wc-monaco-editor config="/config/monaco.json" class="basis-1/2 h-4/5 mt-4"></wc-monaco-editor> -->
+    <div id="monaco" class="basis-1/2 h-4/5 mt-4 h-full"></div>
+    <script src="/scripts/editor.js"></script>
+{{/if}}

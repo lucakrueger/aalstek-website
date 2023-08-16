@@ -1,0 +1,13 @@
+{
+    "language": "javascript",
+    "minimap": {
+      "enabled": true
+    },
+    "tabSize": 4,
+    "fontSize": 14,
+    "wordWrap": "on",
+    "lineNumbersMinChars": 3,
+    "wrappingIndent": "same",
+    "mouseWheelZoom": true,
+    "copyWithSyntaxHighlighting": false
+}
