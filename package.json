@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "npx nodemon -e hbs,js",
-    "builder": "node builder.js"
+    "builder": "node builder.js",
+    "update": "git submodule update --remote"
   },
   "dependencies": {
     "bootstrap": "^5.3.1",
