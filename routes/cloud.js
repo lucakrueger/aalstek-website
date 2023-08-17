@@ -1,4 +1,5 @@
 let express = require('express');
+let fs = require('fs')
 let router = express.Router();
 
 const getProjects = (callback) => {
@@ -10,6 +11,10 @@ const getProjects = (callback) => {
     }
     return ls
 }
+
+router.get('/data/libs', (req, res, next) => {
+    res.send(JSON.parse(fs.readFileSync('public/libs/aalibs.json')))
+})
 
 router.get('/:userid', (req, res, next) => {
     res.render('cloud/index', {

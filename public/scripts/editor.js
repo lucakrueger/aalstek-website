@@ -28,28 +28,43 @@ require(["vs/editor/editor.main"], () => {
 		allowNonTsExtensions: true,
 	});
 
-	// extra libraries
-	var libSource = [
-		"declare class Facts {",
-		"    /**",
-		"     * Returns the next fact",
-		"     */",
-		"    static next():string",
-		"}",
-	].join("\n");
-	var libUri = "ts:filename/facts.d.ts";
-	monaco.languages.typescript.javascriptDefaults.addExtraLib(libSource, libUri);
-	// When resolving definitions and references, the editor will try to use created models.
-	// Creating a model for the library allows "peek definition/references" commands to work with the library.
-	monaco.editor.createModel(libSource, "typescript", monaco.Uri.parse(libUri));
+	fetch('/cloud/data/libs').then((res) => {
+		res.json().then((value) => {
+			for(let key of Object.keys(value)) {
 
-	let editor = monaco.editor.create(document.getElementById('monaco'), {
-		value: [
-			'function x() {',
-			'\tconsole.log("Hello world!");',
-			'}'
-		].join('\n'),
-		language: 'javascript',
-		theme: 'vs-light'
-	});
+				let libSource = value[key]
+				// TODO: Make Better, removes 'export' from source, otherwise functions wont show
+				libSource = libSource.replaceAll('export', '')
+
+				let libUri = `ts:filename/${key}`;
+				monaco.languages.typescript.javascriptDefaults.addExtraLib(libSource, libUri);
+				// When resolving definitions and references, the editor will try to use created models.
+				// Creating a model for the library allows "peek definition/references" commands to work with the library.
+				monaco.editor.createModel(libSource, "typescript", monaco.Uri.parse(libUri));
+
+			}
+
+			// Inject current Cloud function Object to add Intellisense support //
+			let functionid = document.getElementById('monaco').getAttribute('function')
+
+			/////////////////////////////////////////////////////////////////////////////////////////////////
+			let libSource = `let ${functionid}: CloudFunction = {params: {}, onRequest: (params: any) => {}}`
+			/////////////////////////////////////////////////////////////////////////////////////////////////
+
+			// TODO: Make Better, removes 'export' from source
+			libSource = libSource.replaceAll('export', '')
+
+			let libUri = `ts:filename/${functionid}.ts`;
+			monaco.languages.typescript.javascriptDefaults.addExtraLib(libSource, libUri);
+			// When resolving definitions and references, the editor will try to use created models.
+			// Creating a model for the library allows "peek definition/references" commands to work with the library.
+			monaco.editor.createModel(libSource, "typescript", monaco.Uri.parse(libUri));
+
+			let editor = monaco.editor.create(document.getElementById('monaco'), {
+				value: [].join('\n'),
+				language: 'javascript',
+				theme: 'vs-light'
+			})
+		})
+	})
 });
