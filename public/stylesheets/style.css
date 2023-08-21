@@ -20,3 +20,7 @@ bx-header ~ .content {
 html {
     overflow-y: hidden;
 }
+
+[contenteditable] {
+    outline: 0px solid transparent;
+}

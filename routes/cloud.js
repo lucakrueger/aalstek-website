@@ -26,8 +26,7 @@ router.get('/:userid', (req, res, next) => {
             return {
                 name: name,
                 id: name.toLowerCase(),
-                active: false,
-                baseurl: `/cloud/${req.params.userid}`
+                active: false
             }
         }),
     })
@@ -49,8 +48,7 @@ router.get('/:userid/:projectid', (req, res, next) => {
             return {
                 name: name,
                 id: name.toLowerCase(),
-                active: isActive(name.toLowerCase()),
-                baseurl: `/cloud/${req.params.userid}`
+                active: isActive(name.toLowerCase())
             }
         }),
     })
@@ -73,8 +71,7 @@ router.get('/:userid/:projectid/functions', (req, res, next) => {
             return {
                 name: name,
                 id: name.toLowerCase(),
-                active: isActive(name.toLowerCase()),
-                baseurl: `/cloud/${req.params.userid}`
+                active: isActive(name.toLowerCase())
             }
         }),
         functions: [
@@ -83,14 +80,12 @@ router.get('/:userid/:projectid/functions', (req, res, next) => {
                 type: 'Public',
                 category: 'Data Retrieval',
                 status: 'Active',
-                baseurl: `/cloud/${req.params.userid}/${req.params.projectid}/functions`
             },
             {
                 name: 'NewUser',
                 type: 'Public',
                 category: 'Data Creation',
                 status: 'Active',
-                baseurl: `/cloud/${req.params.userid}/${req.params.projectid}/functions`
             }
         ]
     })
@@ -124,14 +119,14 @@ router.get('/:userid/:projectid/functions/:functionid', (req, res, next) => {
                 type: 'Public',
                 category: 'Data Retrieval',
                 status: 'Active',
-                baseurl: `/cloud/${req.params.userid}/${req.params.projectid}/functions`
+                active: req.params.functionid == 'GetUser'
             },
             {
                 name: 'NewUser',
                 type: 'Public',
                 category: 'Data Creation',
                 status: 'Active',
-                baseurl: `/cloud/${req.params.userid}/${req.params.projectid}/functions`
+                active: req.params.functionid == 'NewUser'
             }
         ]
     })
