@@ -6,9 +6,9 @@
 
         {{#each projects}}
                     {{#if active}}
-                        <bx-side-nav-link active href="{{baseurl}}/{{this.id}}">{{this.name}}</bx-side-nav-link>
+                        <bx-side-nav-link active href="{{../baseurl}}/{{this.id}}">{{this.name}}</bx-side-nav-link>
                     {{else}}
-                        <bx-side-nav-link href="{{baseurl}}/{{this.id}}">{{this.name}}</bx-side-nav-link>
+                        <bx-side-nav-link href="{{../baseurl}}/{{this.id}}">{{this.name}}</bx-side-nav-link>
                     {{/if}}
         {{/each}}
 

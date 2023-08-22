@@ -1,13 +1,14 @@
 <div class="flex flex-col h-full content-nav">
     <div class="w-full flex flex-row items-end">
-        <div id="toolbar" class="invisible">
+        <div id="toolbar" class="invisible ml-auto">
             <bx-btn kind="ghost" class="text-green-600">Start</bx-btn>
             <bx-btn kind="ghost" class="text-red-600">Stop</bx-btn>
+            <bx-btn kind="ghost" class="font-bold">Deploy</bx-btn>
             <bx-btn kind="ghost" class="">Delete</bx-btn>
         </div>
         
-        <bx-btn kind="ghost" class="ml-auto">Options</bx-btn>
-        <bx-btn class="">New</bx-btn>
+        <!--<bx-btn kind="ghost" class="ml-auto invisible">Options</bx-btn> -->
+        <bx-btn class="" x-data="" x-on:click="newFunction()">New</bx-btn>
     </div>
 
     <bx-data-table class="basis-1/3">
@@ -15,7 +16,7 @@
             <bx-table-head>
                 <bx-table-header-row>
                     <bx-table-header-cell>
-                        <bx-checkbox x-data="" x-on:click="if($event.pointerId > 0) { selectAll($event); checkAnySelected() }" name="all"></bx-checkbox>
+                        <bx-checkbox x-data="" x-on:click="if($event.pointerId > 0) { checkAllCheckboxes($event); showIfChecked('toolbar') }" name="all"></bx-checkbox>
                     </bx-table-header-cell>
                     <bx-table-header-cell>Name</bx-table-header-cell>
                     <bx-table-header-cell>Type</bx-table-header-cell>
@@ -27,9 +28,9 @@
             </bx-table-head>
             <bx-table-body>
                 {{#each functions}}
-                    <bx-table-row class="function" name="{{this.name}}">
+                    <bx-table-row class="selectableRow" name="{{this.name}}">
                         <bx-table-cell>
-                            <bx-checkbox name="{{this.name}}" x-data="" x-on:click="if($event.pointerId > 0) { checkAnySelected() }"></bx-checkbox>
+                            <bx-checkbox name="{{this.name}}" x-data="" x-on:click="if($event.pointerId > 0) { showIfChecked('toolbar') }"></bx-checkbox>
                         </bx-table-cell>
                         <bx-table-cell class="font-semibold">{{this.name}}</bx-table-cell>
                         <bx-table-cell>{{this.type}}</bx-table-cell>
@@ -37,7 +38,11 @@
                         <bx-table-cell>{{this.status}}</bx-table-cell>
                         <!--<bx-table-cell class="text-red-600 hover:underline decoration-solid hover:cursor-pointer">Stop</bx-table-cell>-->
                         {{#if this.active}}
-                            <bx-table-cell>Opened</bx-table-cell>
+                            <!--<bx-table-cell>Opened</bx-table-cell>-->
+                            <bx-table-cell>
+                                <!--<bx-btn size="sm" href="{{this.baseurl}}/{{this.name}}">Open</bx-btn> -->
+                                <bx-btn kind="tertiary" size="sm" x-data="" x-on:click="location.reload()">Save</bx-btn>
+                            </bx-table-cell>
                         {{else}}
                             <bx-table-cell>
                                 <!--<bx-btn size="sm" href="{{this.baseurl}}/{{this.name}}">Open</bx-btn> -->
@@ -47,23 +52,21 @@
                     </bx-table-row>
                 {{/each}}
 
-                <bx-table-row>
+                <bx-table-row id="newFunctionRow" class="invisible">
+                    <bx-table-cell></bx-table-cell>
+                    <bx-table-cell id="newFunctionName" x-model="name" class="font-semibold" spellcheck="false" contenteditable>NewFunction</bx-table-cell>
                     <bx-table-cell>
-                        
-                    </bx-table-cell>
-                    <bx-table-cell class="font-semibold" spellcheck="false" contenteditable>NewFunction</bx-table-cell>
-                    <bx-table-cell>
-                        <bx-select placeholder="Type">
+                        <bx-select id="newFunctionType" placeholder="Type">
                             <bx-select-item value="public">Public</bx-select-item>
                             <bx-select-item value="private">Private</bx-select-item>
                         </bx-select>
                     </bx-table-cell>
-                    <bx-table-cell spellcheck="false" contenteditable>Unspecified</bx-table-cell>
+                    <bx-table-cell id="newFunctionCategory" spellcheck="false" contenteditable>Unspecified</bx-table-cell>
                     <bx-table-cell></bx-table-cell>
                     <!--<bx-table-cell class="text-red-600 hover:underline decoration-solid hover:cursor-pointer">Stop</bx-table-cell>-->
                     <bx-table-cell>
                         <!--<bx-btn size="sm" href="{{this.baseurl}}/{{this.name}}">Open</bx-btn> -->
-                        <bx-btn size="sm" href="{{baseurl}}/{{projectid}}/functions/{{this.name}}">Save</bx-btn>
+                        <bx-btn size="sm" x-data="" x-on:click="submitNewFunction()">Save</bx-btn>
                     </bx-table-cell>
                 </bx-table-row>
             </bx-table-body>

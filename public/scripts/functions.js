@@ -1,24 +1,86 @@
-function checkAnySelected() {
+const newFunctionRow = {
+    nameInput: document.getElementById('newFunctionName'),
+    typeInput: document.getElementById('newFunctionType'),
+    categoryInput: document.getElementById('newFunctionCategory')
+}
+
+const newFunctionStandardValues = {
+    nameInput: 'NewFunction',
+    typeInput: '',
+    categoryInput: 'Unspecified'
+}
+
+function newFunction() {
+    toggleNewFunction(true)
+}
+
+function submitNewFunction() {
+    postDummy({
+        name: newFunctionRow.nameInput.innerText,
+        type: newFunctionRow.typeInput.innerText,
+        category: newFunctionRow.categoryInput.innerText
+    }).then((res) => {
+        resetNewFunction()
+        location.reload()
+    })
+}
+
+function toggleNewFunction(state) {
+    toggleClass(document.getElementById('newFunctionRow'), state, { onTrue: 'visible', onFalse: 'invisible' })
+}
+
+function resetNewFunction() {
+    //toggleNewFunction(false)
+
+    newFunctionRow.nameInput.innerText = newFunctionStandardValues.nameInput
+    newFunctionRow.typeInput.innerText = newFunctionStandardValues.typeInput
+    newFunctionRow.categoryInput.innerText = newFunctionStandardValues.categoryInput
+}
+
+async function postDummy(body) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log(body)
+            resolve({
+                status: 200
+            })
+        }, 1000)
+    })
+}
+
+function toggleClass(elem, state, {onTrue, onFalse}) {
+    if(state) {
+        elem.classList.remove(onFalse)
+        elem.classList.add(onTrue)
+        return
+    }
+
+    elem.classList.add(onFalse)
+    elem.classList.remove(onTrue)
+}
+
+/**
+ * Makes element with id either visible or invisible if any is selected or not
+ * @param id string
+ */
+function showIfChecked(id) {
     // Wait until HTML element got attribute 'checked'
     window.setTimeout(() => {
-        let anySelected = getSelectedFunctions().length > 0
-        console.log(anySelected, getSelectedFunctions())
+        let anySelected = getSelected().length > 0
 
-        if(anySelected) {
-            document.getElementById('toolbar').classList.remove('invisible')
-            document.getElementById('toolbar').classList.add('visible')
-        } else {
-            document.getElementById('toolbar').classList.remove('visible')
-            document.getElementById('toolbar').classList.add('invisible')
-        }
+        toggleClass(document.getElementById(id), anySelected, {onTrue: 'visible', onFalse: 'invisible'})
     }, 50)
 }
 
-function selectAll(event) {
+/**
+ * Checks all bx-checkboxes in rows with class selectableRow
+ * @param {*} event 
+ */
+function checkAllCheckboxes(event) {
 
     let deselect = event.target.getAttribute('checked') == '' ? true : false
 
-    let functionRows = document.getElementsByClassName('function')
+    let functionRows = document.getElementsByClassName('selectableRow')
 
     for(let fn of functionRows) {
         let checkboxes = fn.getElementsByTagName('bx-checkbox')
@@ -35,10 +97,10 @@ function selectAll(event) {
 
 }
 
-function getSelectedFunctions() {
+function getSelected() {
 
     let selected = []
-    let functionRows = document.getElementsByClassName('function')
+    let functionRows = document.getElementsByClassName('selectableRow')
 
     for(let fn of functionRows) {
         let checkboxes = fn.getElementsByTagName('bx-checkbox')
