@@ -1,6 +1,7 @@
 <div class="flex flex-col h-full content-nav">
     <div class="w-full flex flex-row items-end">
         <div id="toolbar" class="invisible ml-auto">
+            <bx-btn kind="ghost" class="" id="toolbarEdit">Edit</bx-btn>
             <bx-btn kind="ghost" class="text-green-600">Start</bx-btn>
             <bx-btn kind="ghost" class="text-red-600">Stop</bx-btn>
             <bx-btn kind="ghost" class="font-bold">Deploy</bx-btn>
@@ -28,7 +29,7 @@
             </bx-table-head>
             <bx-table-body>
                 {{#each functions}}
-                    <bx-table-row class="selectableRow" name="{{this.name}}">
+                    <bx-table-row class="selectableRow" name="{{this.name}}" id="function/{{this.name}}">
                         <bx-table-cell>
                             <bx-checkbox name="{{this.name}}" x-data="" x-on:click="if($event.pointerId > 0) { showIfChecked('toolbar') }"></bx-checkbox>
                         </bx-table-cell>
@@ -41,7 +42,7 @@
                             <!--<bx-table-cell>Opened</bx-table-cell>-->
                             <bx-table-cell>
                                 <!--<bx-btn size="sm" href="{{this.baseurl}}/{{this.name}}">Open</bx-btn> -->
-                                <bx-btn kind="tertiary" size="sm" x-data="" x-on:click="location.reload()">Save</bx-btn>
+                                <bx-btn id="saveBtn" kind="tertiary" size="sm" x-data="" x-on:click="saveFunction('function/{{this.name}}')">Save</bx-btn>
                             </bx-table-cell>
                         {{else}}
                             <bx-table-cell>
@@ -62,11 +63,11 @@
                         </bx-select>
                     </bx-table-cell>
                     <bx-table-cell id="newFunctionCategory" spellcheck="false" contenteditable>Unspecified</bx-table-cell>
-                    <bx-table-cell></bx-table-cell>
+                    <bx-table-cell id="newFunctionStatus"></bx-table-cell>
                     <!--<bx-table-cell class="text-red-600 hover:underline decoration-solid hover:cursor-pointer">Stop</bx-table-cell>-->
                     <bx-table-cell>
                         <!--<bx-btn size="sm" href="{{this.baseurl}}/{{this.name}}">Open</bx-btn> -->
-                        <bx-btn size="sm" x-data="" x-on:click="submitNewFunction()">Save</bx-btn>
+                        <bx-btn id="newFunctionSave" kind="tertiary" size="sm" x-data="" x-on:click="submitNewFunction()">Save</bx-btn>
                     </bx-table-cell>
                 </bx-table-row>
             </bx-table-body>

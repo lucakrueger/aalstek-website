@@ -1,14 +1,55 @@
 const newFunctionRow = {
     nameInput: document.getElementById('newFunctionName'),
     typeInput: document.getElementById('newFunctionType'),
-    categoryInput: document.getElementById('newFunctionCategory')
+    categoryInput: document.getElementById('newFunctionCategory'),
+    statusOutput: document.getElementById('newFunctionStatus'),
+    saveButton: document.getElementById('newFunctionSave')
 }
 
 const newFunctionStandardValues = {
     nameInput: 'NewFunction',
     typeInput: '',
-    categoryInput: 'Unspecified'
+    categoryInput: 'Unspecified',
+    saveButton: {
+        save: 'Save',
+        success: 'Saved!',
+        failed: 'Failed'
+    }
 }
+
+function saveFunction(name) {
+    postDummy({
+        name: name,
+        script: window.editor.getValue()
+    }).then((res) => {
+
+        let saveButton = document.getElementById(name).getElementsByTagName('bx-btn')[0]
+
+        toggleAttribute(saveButton, 'kind', res.status == 200, {
+            onTrue: 'primary',
+            onFalse: 'danger'
+        })
+
+        toggleKey(saveButton, 'innerText', res.status == 200, {
+            onTrue: 'Saved',
+            onFalse: 'Failed'
+        })
+
+        setTimeout(() => {
+            saveButton.setAttribute('kind', 'tertiary')
+            saveButton.innerText = 'Save'
+        }, 1500)
+
+
+    })
+}
+
+/*
+    Edit
+    - Make Row Invisible
+    - Fill new row with old data
+    - Save as new
+*/
 
 function newFunction() {
     toggleNewFunction(true)
@@ -20,8 +61,29 @@ function submitNewFunction() {
         type: newFunctionRow.typeInput.innerText,
         category: newFunctionRow.categoryInput.innerText
     }).then((res) => {
-        resetNewFunction()
-        location.reload()
+
+        newFunctionRow.statusOutput.innerText = res.status
+
+        if(res.status == 200) {
+            newFunctionRow.saveButton.setAttribute('kind', 'primary')
+            newFunctionRow.saveButton.innerText = newFunctionStandardValues.saveButton.success
+            
+            setTimeout(() => {
+                location.reload()
+            }, 500)
+
+            return
+        }
+
+        newFunctionRow.saveButton.setAttribute('kind', 'danger')
+        newFunctionRow.saveButton.innerText = newFunctionStandardValues.saveButton.failed
+
+        setTimeout(() => {
+            newFunctionRow.saveButton.innerText = newFunctionStandardValues.saveButton.save
+        }, 2000)
+
+        //resetNewFunction()
+        //location.reload()
     })
 }
 
@@ -42,10 +104,18 @@ async function postDummy(body) {
         setTimeout(() => {
             console.log(body)
             resolve({
-                status: 200
+                status: 500
             })
         }, 1000)
     })
+}
+
+function toggleKey(elem, key, state, {onTrue, onFalse}) {
+    state == true ? elem[key] = onTrue : elem[key] = onFalse
+}
+
+function toggleAttribute(elem, attr, state, {onTrue, onFalse}) {
+    state == true ? elem.setAttribute(attr, onTrue) : elem.setAttribute(attr, onFalse)
 }
 
 function toggleClass(elem, state, {onTrue, onFalse}) {
@@ -59,6 +129,12 @@ function toggleClass(elem, state, {onTrue, onFalse}) {
     elem.classList.remove(onTrue)
 }
 
+function showIfOneSelected(id) {
+    let oneSelected = getSelected().length == 1
+
+    toggleClass(document.getElementById(id), oneSelected, {onTrue: 'visible', onFalse: 'invisible'})
+}
+
 /**
  * Makes element with id either visible or invisible if any is selected or not
  * @param id string
@@ -68,8 +144,10 @@ function showIfChecked(id) {
     window.setTimeout(() => {
         let anySelected = getSelected().length > 0
 
+        showIfOneSelected('toolbarEdit')
+
         toggleClass(document.getElementById(id), anySelected, {onTrue: 'visible', onFalse: 'invisible'})
-    }, 50)
+    }, 100)
 }
 
 /**

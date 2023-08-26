@@ -60,7 +60,7 @@ require(["vs/editor/editor.main"], () => {
 			// Creating a model for the library allows "peek definition/references" commands to work with the library.
 			monaco.editor.createModel(libSource, "typescript", monaco.Uri.parse(libUri));
 
-			let editor = monaco.editor.create(document.getElementById('monaco'), {
+			window.editor = monaco.editor.create(document.getElementById('monaco'), {
 				value: [].join('\n'),
 				language: 'javascript',
 				theme: 'vs-light'
